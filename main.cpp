@@ -10,6 +10,6 @@ int main()
     bst.insert(2);
     bst.insert(10);
     bst.inOrder(bst.getRoot());
-
+    bst.search(45);
     return 0;
 }
