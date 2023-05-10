@@ -1,17 +1,17 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include "Student.h"
 using namespace std;
 
 const string FILENAME = "FileInput.txt";
-
 
 class InputFile {
 public:
     static void putDataInTrees();
 
 private:
-    static void readInputFile(int numberOfStudents, fstream &File, Student * arrayStudent);
+    static void readInputFile(int numberOfStudents, fstream &File, vector<Student> & arrayStudent);
     static bool checkDataToReturnStudent(string id, string name, string gpa, string dep, Student &std);
 };
 
@@ -21,13 +21,14 @@ void InputFile::putDataInTrees(){
     if (!FileName) {
         cout << "File doesnt exist.";
     } else {
-        int numberOfStudents = 0;
+        int numberOfStudents;
         string Line;
         // get number of student in the file
         if (!FileName.eof()) {
             getline(FileName, Line);
             try {
-                Student * arrayStudent = new Student[numberOfStudents];
+                vector<Student> arrayStudent;
+
                 numberOfStudents = stoi(Line);
                 readInputFile(numberOfStudents, FileName, arrayStudent);
             }
@@ -39,22 +40,19 @@ void InputFile::putDataInTrees(){
 
 }
 
-void InputFile::readInputFile(int numberOfStudents, fstream &File, Student * arrayStudent){
+void InputFile::readInputFile(int numberOfStudents, fstream &File, vector<Student> & arrayStudent){
     string id, name, gpa, dep;
-    Student std;
+    Student student;
     if (!File.eof()){
         for (int i = 0; i < numberOfStudents; ++i) {
             getline(File, id);
             getline(File, name);
             getline(File, gpa);
             getline(File, dep);
-            if (checkDataToReturnStudent(id, name, gpa, dep, std)){
-                arrayStudent[i] = std;
+            if (checkDataToReturnStudent(id, name, gpa, dep, student)){
+                arrayStudent.push_back(student);
             }
         }
-    }
-    for (int i = 0; i < numberOfStudents; ++i) {
-        arrayStudent[i].printStudent();
     }
 }
 
@@ -71,7 +69,7 @@ bool InputFile::checkDataToReturnStudent(string id, string name, string gpa, str
         if (std.setId(Id)){
             if (std.setGPA(Gpa)){
                 if (std.setDepartment(dep)){
-                    std.Name = name;
+                    std.setName(name);
                     return true;
                 }
             }
