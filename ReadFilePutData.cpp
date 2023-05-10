@@ -1,86 +1,10 @@
 #include <iostream>
 #include <fstream>
+#include "Student.h"
 using namespace std;
 
 const string FILENAME = "FileInput.txt";
 
-class Student{
-private:
-    int Id;
-    float GPA;
-    string department;
-
-public:
-    string Name;
-
-    Student(int id, string name, float gpa, string dep){
-        Id = id;
-        Name = name;
-        GPA = gpa;
-        department = dep;
-    }
-    Student(){
-        Id = 0;
-        Name = "";
-        GPA = 0;
-        department = "";
-    }
-
-    bool setId(int id){
-        if (id > 100){
-            cout << "you cant put id greater than 100" << endl;
-            return false;
-        } else{
-            Id = id;
-            return true;
-        }
-    }
-    int getId(){
-        return Id;
-    }
-
-    float getGPA(){
-        return GPA;
-    }
-    bool setGPA(float gpa){
-        if (gpa > 4){
-            cout << "There's no GPA greater than 4" << endl;
-            return false;
-        }else{
-            GPA = gpa;
-            return true;
-        }
-    }
-
-    string getDepartment(){
-        return department;
-    }
-    bool setDepartment(string dep){
-        if (dep == "IT" or dep == "DS" or dep == "CS" or dep == "IS" or dep == "AI"){
-            department = dep;
-            return true;
-        }else{
-            cout << "No Department Called " << dep << endl;
-            return false;
-        }
-    }
-    void printStudent(){
-        cout << "[Student : " << Name << " ID : " << Id << " GPA : " << GPA << " In Department : " << department << "]" << endl;
-    }
-
-    Student operator=(const Student & std){
-        this->Id = std.Id;
-        cout << "yeer";
-        this->Name = "skadmas";
-        cout << this->Name << endl;
-        this->Name = std.Name;
-        cout << std.Name << endl;
-
-        this->department = std.department;
-        this->GPA = std.GPA;
-        return *this;
-    }
-};
 
 class InputFile {
 public:
