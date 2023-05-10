@@ -19,13 +19,20 @@ public:
         GPA = gpa;
         department = dep;
     }
-    Student(){}
+    Student(){
+        Id = 0;
+        Name = "";
+        GPA = 0;
+        department = "";
+    }
 
-    void setId(int id){
+    bool setId(int id){
         if (id > 100){
             cout << "you cant put id greater than 100" << endl;
+            return false;
         } else{
             Id = id;
+            return true;
         }
     }
     int getId(){
@@ -35,26 +42,43 @@ public:
     float getGPA(){
         return GPA;
     }
-    void setGPA(float gpa){
+    bool setGPA(float gpa){
         if (gpa > 4){
             cout << "There's no GPA greater than 4" << endl;
+            return false;
         }else{
             GPA = gpa;
+            return true;
         }
     }
 
     string getDepartment(){
         return department;
     }
-    void setDepartment(string dep){
+    bool setDepartment(string dep){
         if (dep == "IT" or dep == "DS" or dep == "CS" or dep == "IS" or dep == "AI"){
             department = dep;
+            return true;
         }else{
             cout << "No Department Called " << dep << endl;
+            return false;
         }
     }
     void printStudent(){
         cout << "[Student : " << Name << " ID : " << Id << " GPA : " << GPA << " In Department : " << department << "]" << endl;
+    }
+
+    Student operator=(const Student & std){
+        this->Id = std.Id;
+        cout << "yeer";
+        this->Name = "skadmas";
+        cout << this->Name << endl;
+        this->Name = std.Name;
+        cout << std.Name << endl;
+
+        this->department = std.department;
+        this->GPA = std.GPA;
+        return *this;
     }
 };
 
@@ -95,19 +119,18 @@ void InputFile::readInputFile(int numberOfStudents, fstream &File, Student * arr
     string id, name, gpa, dep;
     Student std;
     if (!File.eof()){
-        // to take the line that write on the number of student
-        getline(File, id);
-    }
-    if (!File.eof()){
         for (int i = 0; i < numberOfStudents; ++i) {
             getline(File, id);
             getline(File, name);
             getline(File, gpa);
             getline(File, dep);
             if (checkDataToReturnStudent(id, name, gpa, dep, std)){
-                
+                arrayStudent[i] = std;
             }
         }
+    }
+    for (int i = 0; i < numberOfStudents; ++i) {
+        arrayStudent[i].printStudent();
     }
 }
 
@@ -115,9 +138,23 @@ bool InputFile::checkDataToReturnStudent(string id, string name, string gpa, str
     try {
         int Id;
         float Gpa;
+
+        // convert from string to another data types
+        Id = stoi(id);
+
+        Gpa = stof(gpa);
+
+        if (std.setId(Id)){
+            if (std.setGPA(Gpa)){
+                if (std.setDepartment(dep)){
+                    std.Name = name;
+                    return true;
+                }
+            }
+        }
     }
     catch (...){
-
+        return false;
     }
-//    Student std = new Student()
+    return false;
 }

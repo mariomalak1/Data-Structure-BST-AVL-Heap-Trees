@@ -3,5 +3,6 @@
 using namespace std;
 
 int main() {
+    InputFile::putDataInTrees();
     return 0;
 }
