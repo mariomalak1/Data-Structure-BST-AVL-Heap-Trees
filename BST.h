@@ -38,24 +38,96 @@ private:
         }
         return current;
     }
-    Node *search(Node *current, Student data)
+    Node *search(Node *current, int id)
     {
         if (current == NULL)
         {
             return NULL;
         }
-        else if (data.getId() == current->data.getId())
+        else if (id == current->data.getId())
         {
             return current;
         }
-        else if (data.getId() < current->data.getId())
+        else if (id < current->data.getId())
         {
-            return search(current->left, data);
+            return search(current->left, id);
         }
         else
         {
-            return search(current->right, data);
+            return search(current->right, id);
         }
+    }
+    Node *findMax(Node *current)
+    {
+        if (current == NULL)
+        {
+            return NULL;
+        }
+        else if (current->right == NULL)
+        {
+            return current;
+        }
+        else
+        {
+            return findMax(current->right);
+        }
+    }
+    Node *remove(Node *current, int id)
+    {
+        if (current == NULL)
+        {
+            return NULL;
+        }
+        if (id < current->data.getId())
+        {
+            current->left = remove(current->left, id);
+        }
+        else if (id > current->data.getId())
+        {
+            current->right = remove(current->right, id);
+        }
+        else
+        {
+            if (current->left == NULL && current->right == NULL)
+            {
+
+                delete current;
+                current = NULL;
+            }
+            else if (current->left != NULL && current->right == NULL) // one child left
+            {
+                current->data = current->left->data;
+                if (current->left->left != NULL)
+                {
+                    current->left = current->left->left;
+                }
+                else
+                {
+                    delete current->left;
+                    current->left = NULL;
+                }
+            }
+            else if (current->left == NULL && current->right != NULL) // one child right
+            {
+                current->data = current->right->data;
+                if (current->right->right != NULL)
+                {
+                    current->right = current->right->right;
+                }
+                else
+                {
+                    delete current->right;
+                    current->right = NULL;
+                }
+            }
+            else
+            {
+                Node *max = findMax(current->left);
+                current->data = max->data;
+                current->left = remove(current->left, max->data.getId());
+            }
+        }
+        return current;
     }
 
 public:
@@ -80,21 +152,21 @@ public:
             inOrder(current->right);
         }
     }
-    void search(Student data)
+    void search(int id)
     {
-        Node *current = search(this->root, data);
+        Node *current = search(this->root, id);
         if (current != NULL)
         {
             cout << current->data.getId() << " " << current->data.getName() << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
         }
         else
         {
-            cout << "Not Found";
+            cout << "Not Found" << endl;
         }
     }
-    bool find(Student data)
+    bool find(int id)
     {
-        Node *current = search(this->root, data);
+        Node *current = search(this->root, id);
         if (current != NULL)
         {
             return true;
@@ -102,6 +174,18 @@ public:
         else
         {
             return false;
+        }
+    }
+    void remove(int id)
+    {
+        if (find(id))
+        {
+            root = remove(root, id);
+            cout << "Deleted" << endl;
+        }
+        else
+        {
+            cout << "Item Not Found to delete " << endl;
         }
     }
 };
