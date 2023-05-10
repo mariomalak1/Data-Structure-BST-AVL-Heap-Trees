@@ -1,23 +1,23 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 #include "Student.h"
 using namespace std;
 
 const string FILENAME = "FileInput.txt";
 
-
 class InputFile
 {
 public:
-    static void putDataInTrees();
+    static void LoadInVector(vector<Student> &arrayStudent);
 
 private:
-    static void readInputFile(int numberOfStudents, fstream &File, Student *arrayStudent);
+    static void readInputFile(int numberOfStudents, fstream &File, vector<Student> &arrayStudent);
     static bool checkDataToReturnStudent(string id, string name, string gpa, string dep, Student &std);
 };
 
-void InputFile::putDataInTrees()
+void InputFile::LoadInVector(vector<Student> &arrayStudent)
 {
     fstream FileName;
     FileName.open(FILENAME, ios::in);
@@ -27,7 +27,7 @@ void InputFile::putDataInTrees()
     }
     else
     {
-        int numberOfStudents = 0;
+        int numberOfStudents;
         string Line;
         // get number of student in the file
         if (!FileName.eof())
@@ -35,7 +35,6 @@ void InputFile::putDataInTrees()
             getline(FileName, Line);
             try
             {
-                Student *arrayStudent = new Student[numberOfStudents];
                 numberOfStudents = stoi(Line);
                 readInputFile(numberOfStudents, FileName, arrayStudent);
             }
@@ -47,23 +46,23 @@ void InputFile::putDataInTrees()
     }
 }
 
-void InputFile::readInputFile(int numberOfStudents, fstream &File, Student *arrayStudent)
+void InputFile::readInputFile(int numberOfStudents, fstream &File, vector<Student> &arrayStudent)
 {
     string id, name, gpa, dep;
-    Student std;
-    if (!File.eof()){
-        for (int i = 0; i < numberOfStudents; ++i) {
+    Student student;
+    if (!File.eof())
+    {
+        for (int i = 0; i < numberOfStudents; ++i)
+        {
             getline(File, id);
             getline(File, name);
             getline(File, gpa);
             getline(File, dep);
-            if (checkDataToReturnStudent(id, name, gpa, dep, std)){
-                arrayStudent[i] = std;
+            if (checkDataToReturnStudent(id, name, gpa, dep, student))
+            {
+                arrayStudent.push_back(student);
             }
         }
-    }
-    for (int i = 0; i < numberOfStudents; ++i) {
-        arrayStudent[i].printStudent();
     }
 }
 
@@ -79,16 +78,20 @@ bool InputFile::checkDataToReturnStudent(string id, string name, string gpa, str
 
         Gpa = stof(gpa);
 
-        if (std.setId(Id)){
-            if (std.setGPA(Gpa)){
-                if (std.setDepartment(dep)){
-                    std.Name = name;
+        if (std.setId(Id))
+        {
+            if (std.setGPA(Gpa))
+            {
+                if (std.setDepartment(dep))
+                {
+                    std.setName(name);
                     return true;
                 }
             }
         }
     }
-    catch (...){
+    catch (...)
+    {
         return false;
     }
     return false;

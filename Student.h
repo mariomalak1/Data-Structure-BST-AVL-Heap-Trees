@@ -13,10 +13,9 @@ private:
     int Id;
     float GPA;
     string department;
-
-public:
     string Name;
 
+public:
     Student(int id, string name, float gpa, string dep)
     {
         Id = id;
@@ -41,7 +40,7 @@ public:
         }
         else
         {
-            Id = id;
+            this->Id = id;
             return true;
         }
     }
@@ -63,7 +62,7 @@ public:
         }
         else
         {
-            GPA = gpa;
+            this->GPA = gpa;
             return true;
         }
     }
@@ -76,7 +75,7 @@ public:
     {
         if (dep == "IT" || dep == "DS" || dep == "CS" || dep == "IS" || dep == "AI")
         {
-            department = dep;
+            this->department = dep;
             return true;
         }
         else
@@ -85,17 +84,27 @@ public:
             return false;
         }
     }
+
+    string getName()
+    {
+        return Name;
+    }
+    bool setName(string name)
+    {
+        this->Name = name;
+        return true;
+    }
+
     void printStudent()
     {
         cout << "[Student : " << Name << " ID : " << Id << " GPA : " << GPA << " In Department : " << department << "]" << endl;
     }
-
-    Student operator=(const Student &std)
+    Student operator=(Student &std)
     {
         this->Id = std.Id;
+        this->GPA = std.GPA;
         this->Name = std.Name;
         this->department = std.department;
-        this->GPA = std.GPA;
         return *this;
     }
 };

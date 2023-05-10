@@ -9,7 +9,7 @@ struct Node
     Node *right;
     Node(Student val)
     {
-        data.Name = val.Name;
+        data.setName(val.getName());
         data.setId(val.getId());
         data.setDepartment(val.getDepartment());
         data.setGPA(val.getGPA());
@@ -76,7 +76,7 @@ public:
         if (current != NULL)
         {
             inOrder(current->left);
-            cout << current->data.getId() << " " << current->data.Name << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
+            cout << current->data.getId() << " " << current->data.getName() << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
             inOrder(current->right);
         }
     }
@@ -85,7 +85,7 @@ public:
         Node *current = search(this->root, data);
         if (current != NULL)
         {
-            cout << current->data.getId() << " " << current->data.Name << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
+            cout << current->data.getId() << " " << current->data.getName() << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
         }
         else
         {
