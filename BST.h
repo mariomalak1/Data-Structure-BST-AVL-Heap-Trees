@@ -1,30 +1,34 @@
 #include <iostream>
+#include "Student.h"
 using namespace std;
-template <class T>
+
 struct Node
 {
-    T data;
-    Node<T> *left;
-    Node<T> *right;
-    Node(T val)
+    Student data;
+    Node *left;
+    Node *right;
+    Node(Student val)
     {
-        data = val;
+        data.Name = val.Name;
+        data.setId(val.getId());
+        data.setDepartment(val.getDepartment());
+        data.setGPA(val.getGPA());
         left = NULL;
         right = NULL;
     }
 };
-template <class T>
+
 class BST
 {
 private:
-    Node<T> *root;
-    Node<T> *insert(Node<T> *current, T data)
+    Node *root;
+    Node *insert(Node *current, Student data)
     {
         if (current == NULL)
         {
-            current = new Node<T>(data);
+            current = new Node(data);
         }
-        else if (data < current->data)
+        else if (data.getId() < current->data.getId())
         {
             current->left = insert(current->left, data);
         }
@@ -34,17 +38,17 @@ private:
         }
         return current;
     }
-    Node<T> *search(Node<T> *current, T data)
+    Node *search(Node *current, Student data)
     {
         if (current == NULL)
         {
             return NULL;
         }
-        else if (data == current->data)
+        else if (data.getId() == current->data.getId())
         {
             return current;
         }
-        else if (data < current->data)
+        else if (data.getId() < current->data.getId())
         {
             return search(current->left, data);
         }
@@ -59,38 +63,38 @@ public:
     {
         this->root = NULL;
     }
-    void insert(T data)
+    void insert(Student data)
     {
         root = insert(root, data);
     }
-    Node<T> *getRoot()
+    Node *getRoot()
     {
         return this->root;
     }
-    void inOrder(Node<T> *current)
+    void inOrder(Node *current)
     {
         if (current != NULL)
         {
             inOrder(current->left);
-            cout << current->data << " ";
+            cout << current->data.getId() << " " << current->data.Name << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
             inOrder(current->right);
         }
     }
-    void search(T data)
+    void search(Student data)
     {
-        Node<T> *current = search(this->root, data);
+        Node *current = search(this->root, data);
         if (current != NULL)
         {
-            cout << endl << current->data << " ";
+            cout << current->data.getId() << " " << current->data.Name << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
         }
         else
         {
             cout << "Not Found";
         }
     }
-    bool find(T data)
+    bool find(Student data)
     {
-        Node<T> *current = search(this->root, data);
+        Node *current = search(this->root, data);
         if (current != NULL)
         {
             return true;
