@@ -5,6 +5,7 @@
 #ifndef MAIN_CPP_STUDENT_H
 #define MAIN_CPP_STUDENT_H
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 class Student
@@ -73,6 +74,7 @@ public:
     }
     bool setDepartment(string dep)
     {
+        transform(dep.begin(), dep.end(), dep.begin(), ::toupper);
         if (dep == "IT" || dep == "DS" || dep == "CS" || dep == "IS" || dep == "AI")
         {
             this->department = dep;
@@ -97,7 +99,13 @@ public:
 
     void printStudent()
     {
-        cout << "[Student : " << Name << " ID : " << Id << " GPA : " << GPA << " In Department : " << department << "]" << endl;
+        cout << "********************************" << endl;
+            cout << "Student ID: " << Id << endl;
+            cout << "Student Name: " << Name << endl;
+            cout << "Student GPA: " << GPA << endl;
+            cout << "Student Department: " << department << endl;
+            cout << "********************************" << endl;
+        //cout << "[Student : " << Name << " ID : " << Id << " GPA : " << GPA << " In Department : " << department << "]" << endl;
     }
     Student operator=(Student &std)
     {

@@ -23,7 +23,7 @@ void InputFile::LoadInVector(vector<Student> &arrayStudent)
     FileName.open(FILENAME, ios::in);
     if (!FileName)
     {
-        cout << "File doesnt exist.";
+        cout << "File Doesn't exist.";
     }
     else
     {

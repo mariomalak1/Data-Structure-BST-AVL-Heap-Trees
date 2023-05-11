@@ -148,7 +148,12 @@ public:
         if (current != NULL)
         {
             inOrder(current->left);
-            cout << current->data.getId() << " " << current->data.getName() << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
+            cout << "********************************" << endl;
+            cout << "Student ID: " << current->data.getId() << endl;
+            cout << "Student Name: " << current->data.getName() << endl;
+            cout << "Student GPA: " << current->data.getGPA() << endl;
+            cout << "Student Department: " << current->data.getDepartment() << endl;
+            cout << "********************************" << endl;
             inOrder(current->right);
         }
     }
@@ -157,7 +162,10 @@ public:
         Node *current = search(this->root, id);
         if (current != NULL)
         {
-            cout << current->data.getId() << " " << current->data.getName() << " " << current->data.getDepartment() << " " << current->data.getGPA() << "\n";
+            cout << "Student ID: " << current->data.getId() << endl;
+            cout << "Student Name: " << current->data.getName() << endl;
+            cout << "Student GPA: " << current->data.getGPA() << endl;
+            cout << "Student Department: " << current->data.getDepartment() << endl;
         }
         else
         {
