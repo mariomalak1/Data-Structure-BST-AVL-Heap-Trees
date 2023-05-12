@@ -45,18 +45,38 @@ public:
         array = newArray;
 
         int temp = size-1;
-        while (temp != 0 && array[temp].getGPA() < array[parent(temp)].getGPA()) {
+        while (temp != 0 && array[temp].getGPA() > array[parent(temp)].getGPA()) {
             swap(array[parent(temp)], array[temp]);
             temp = parent(temp);
 
         }
 
     }
-
+    void sortByGpa(Student arr[], int size)
+    {
+        int max;
+        for (int i = 0; i < size - 1; i++)
+        {
+            max = i;
+            for (int j = i + 1; j < size; j++)
+            {
+                if (arr[j].getGPA() > arr[max].getGPA())
+                {
+                    max = j;
+                }
+            }
+            swap(arr[max], arr[i]);
+        }
+    }
 
     void print() {
+        Student *newArray = new Student [size];
+        for (int i = 0; i < size;i++){
+            newArray[i] = array[i];
+        }
+        sortByGpa(newArray,size);
         for (int i = 0; i < size; i++) {
-            array[i].printStudent() ;
+            newArray[i].printStudent() ;
         }
     }
     void swap(Student & a,Student & b){

@@ -25,6 +25,8 @@ public:
         array = new Student [maxSize];
     }
     int parent(int i) { return (i-1)/2; }
+    int firstChild(int i) { return (i*2+1); }
+    int secChild(int i) { return (i*2+2); }
 
     // to get index of left child of node at index i
     int left(int i) { return (2*i + 1); }
@@ -45,20 +47,41 @@ public:
         array = newArray;
 
         int temp = size-1;
-        while (temp != 0 && array[temp].getGPA() > array[parent(temp)].getGPA()) {
+        while (temp != 0 && array[temp].getGPA() < array[parent(temp)].getGPA()) {
             swap(array[parent(temp)], array[temp]);
             temp = parent(temp);
 
         }
 
     }
-
-
-    void print() {
-        for (int i = 0; i < size; i++) {
-            array[i].printStudent() ;
+    void sortByGpa(Student arr[], int size)
+    {
+        int min;
+        for (int i = 0; i < size - 1; i++)
+        {
+            min = i;
+            for (int j = i + 1; j < size; j++)
+            {
+                if (arr[j].getGPA() < arr[min].getGPA())
+                {
+                    min = j;
+                }
+            }
+            swap(arr[min], arr[i]);
         }
     }
+
+    void print() {
+        Student *newArray = new Student [size];
+        for (int i = 0; i < size;i++){
+            newArray[i] = array[i];
+        }
+        sortByGpa(newArray,size);
+        for (int i = 0;i < size;i++ ){
+            newArray[i].printStudent();
+        }
+    }
+
     void swap(Student & a,Student & b){
         Student c ;
         c = a;
