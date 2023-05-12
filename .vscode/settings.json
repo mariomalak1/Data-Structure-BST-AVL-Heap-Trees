@@ -4,6 +4,12 @@
         "vector": "cpp",
         "xutility": "cpp",
         "ostream": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "cmath": "cpp",
+        "algorithm": "cpp",
+        "istream": "cpp",
+        "iterator": "cpp",
+        "xlocnum": "cpp",
+        "xstring": "cpp"
     }
 }

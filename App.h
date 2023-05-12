@@ -1,28 +1,26 @@
 #include <iostream>
 #include "Student.h"
 #include "ReadFilePutData.cpp"
-#include "BST.h"
 #include "minHeap.h"
 #include "maxHeap.h"
 #include <conio.h>
 #include <string>
+#include "AVL.h"
+#include "BST.h"
+#include <algorithm>
 using namespace std;
 class Application
 {
 private:
     vector<Student> StudentList;
-    void loadStudentList()
-    {
-        InputFile::LoadInVector(StudentList);
-    }
     void insertInBST(BST &b, vector<Student> &v)
     {
         // make the middle element of the vector the root to avoid insert sorted data in BST
-        for (int i = v.size() / 2; i < v.size(); i++)
+        for (int i = 0; i < v.size() / 2; i++)
         {
             b.insert(v[i]);
         }
-        for (int i = 0; i < v.size() / 2; i++)
+        for (int i = v.size() / 2; i < v.size(); i++)
         {
             b.insert(v[i]);
         }
@@ -45,9 +43,25 @@ private:
             b.insert(v[i].getId(), v[i].getName(), v[i].getGPA(), v[i].getDepartment());
         }
     }
-    BST bst;
-    minHeap min_Heap;
-    maxHeap max_Heap;
+    void insertInAVL(AVL &a, vector<Student> &v)
+    {
+        for (int i = 0; i < v.size(); i++)
+        {
+            a.insert(v[i]);
+        }
+    }
+    bool isFound(int id)
+    {
+        for (int i = 0; i < StudentList.size(); i++)
+        {
+            if (StudentList[i].getId() == id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     bool insertStudent(Student &newStudent)
     {
 
@@ -56,6 +70,11 @@ private:
         float GPA;
         cout << "Enter Student ID:" << endl;
         cin >> id;
+        if (isFound(id))
+        {
+            cout << "\033[31mID already exists... Please enter a new ID. \033[0m" << endl;
+            return false;
+        }
         cout << "Enter Student Name:" << endl;
         cin.clear();
         cin.ignore();
@@ -73,7 +92,6 @@ private:
                     if (newStudent.setGPA(GPA))
                     {
                         StudentList.push_back(newStudent);
-                        bst.insert(newStudent);
                         return true;
                     }
                 }
@@ -85,6 +103,11 @@ private:
 public:
     void MainMenu()
     {
+        StudentList.clear();
+        BST bst;
+        minHeap min_Heap;
+        maxHeap max_Heap;
+        AVL avl;
         int choice;
         InputFile::LoadInVector(StudentList);
     startMainMenu:
@@ -104,6 +127,12 @@ public:
         {
             system("cls");
             BST_Menu(bst);
+            break;
+        }
+        case 2:
+        {
+            system("cls");
+            AVL_Menu(avl);
             break;
         }
         case 3:
@@ -127,7 +156,7 @@ public:
         {
             system("cls");
             cout << "+------------------------------+" << endl;
-            cout << "Invalid Choice" << endl;
+            cout << " \033[31mInvalid Choice \033[0m" << endl;
             cout << "+------------------------------+" << endl;
             cin.clear();
             cin.ignore();
@@ -161,7 +190,7 @@ public:
                 bst.insert(newStudent);
                 break;
             }
-            cout << "Invalid Student Information" << endl;
+            cout << "\033[31mInvalid Student Information \033[0m" << endl;
             break;
         }
         case 2:
@@ -204,7 +233,7 @@ public:
         {
             system("cls");
             cout << "+------------------------------+" << endl;
-            cout << "Invalid Choice" << endl;
+            cout << "\033[31mInvalid Choice \033[0m" << endl;
             cout << "+------------------------------+" << endl;
             cin.clear();
             cin.ignore();
@@ -236,7 +265,7 @@ public:
                 min_heap.insert(newStudent.getId(), newStudent.getName(), newStudent.getGPA(), newStudent.getDepartment());
                 break;
             }
-            cout << "Invalid Student Information" << endl;
+            cout << "\033[31mInvalid Student Information \033[0m" << endl;
             break;
         }
         case 2:
@@ -257,7 +286,7 @@ public:
         {
             system("cls");
             cout << "+------------------------------+" << endl;
-            cout << "Invalid Choice" << endl;
+            cout << "\033[31mInvalid Choice \033[0m" << endl;
             cout << "+------------------------------+" << endl;
             cin.clear();
             cin.ignore();
@@ -289,7 +318,7 @@ public:
                 max_heap.insert(newStudent.getId(), newStudent.getName(), newStudent.getGPA(), newStudent.getDepartment());
                 break;
             }
-            cout << "Invalid Student Information" << endl;
+            cout << "\033[31mInvalid Student Information \033[0m" << endl;
             break;
         }
         case 2:
@@ -310,7 +339,84 @@ public:
         {
             system("cls");
             cout << "+------------------------------+" << endl;
-            cout << "Invalid Choice" << endl;
+            cout << "\033[31mInvalid Choice \033[0m" << endl;
+            cout << "+------------------------------+" << endl;
+            cin.clear();
+            cin.ignore();
+            break;
+        }
+        }
+        goto start;
+    }
+    void AVL_Menu(AVL &avl)
+    {
+        int choice;
+        insertInAVL(avl, StudentList);
+    start:
+        cout << "================================" << endl;
+        cout << "            AVL Menu            " << endl;
+        cout << "================================" << endl;
+        cout << "1- Add Student" << endl;
+        cout << "2- Remove Student" << endl;
+        cout << "3- Search Student" << endl;
+        cout << "4- Print All Students (Sorted By ID)" << endl;
+        cout << "5- Return to Main Menu " << endl;
+        cout << "What is Your Choice? ----> ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+        {
+            Student newStudent;
+            if (insertStudent(newStudent))
+            {
+                avl.insert(newStudent);
+                break;
+            }
+            cout << "\033[31mInvalid Student Information \033[0m" << endl;
+            break;
+        }
+        case 2:
+        {
+            int id;
+            cout << "Enter Student ID:" << endl;
+            cin >> id;
+            system("cls");
+            cout << "+------------------------------+" << endl;
+            avl.remove(id);
+            cout << "+------------------------------+" << endl;
+            break;
+        }
+        case 3:
+        {
+            int id;
+            cout << "Enter Student ID:" << endl;
+            cin >> id;
+            system("cls");
+            cout << "+------------------------------+" << endl;
+            avl.search(id);
+            cout << "+------------------------------+" << endl;
+            break;
+        }
+        case 4:
+        {
+            system("cls");
+            cout << "+------------------------------+" << endl;
+            avl.inOrder();
+            cout << "+------------------------------+" << endl;
+            break;
+        }
+        case 5:
+        {
+            system("cls");
+            MainMenu();
+            break;
+        }
+        default:
+        {
+            system("cls");
+            cout << "+------------------------------+" << endl;
+            cout << "\033[31mInvalid Choice\033[0m" << endl;
             cout << "+------------------------------+" << endl;
             cin.clear();
             cin.ignore();
