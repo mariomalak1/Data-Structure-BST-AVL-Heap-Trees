@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Student.h"
-using namespace std;
 
+using namespace std;
 struct Node
 {
     Student data;
@@ -17,7 +17,6 @@ struct Node
         right = NULL;
     }
 };
-
 class BST
 {
 private:
@@ -169,7 +168,7 @@ public:
         }
         else
         {
-            cout << "Not Found" << endl;
+            cout << "\033[31mNot Found\033[0m" << endl;
         }
     }
     bool find(int id)
@@ -189,11 +188,11 @@ public:
         if (find(id))
         {
             root = remove(root, id);
-            cout << "Deleted" << endl;
+            cout << "\033[31mDeleted\033[0m" << endl;
         }
         else
         {
-            cout << "Item Not Found to delete " << endl;
+            cout << "\033[31mItem Not Found to delete \033[0m" << endl;
         }
     }
 };
